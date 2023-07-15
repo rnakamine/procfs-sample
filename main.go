@@ -1,7 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"log"
+
+	"github.com/prometheus/procfs"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	fs, err := procfs.NewFS("/proc")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	netTCP, err := fs.NetTCP()
+	for _, v := range netTCP {
+		log.Println(v)
+	}
 }
